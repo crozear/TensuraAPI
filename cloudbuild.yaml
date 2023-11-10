@@ -1,5 +1,5 @@
 steps:
-- name: 'python:3.7'
+- name: 'python'
   entrypoint: 'pip'
   args: ['install', '-r', 'requirements.txt']
 - name: 'gcr.io/cloud-builders/gcloud'
