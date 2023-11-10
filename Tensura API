@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: Tensura API
+  version: 1.0.0
+paths:
+  /characters:
+    get:
+      summary: Retrieve character information
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          required: true
+          description: Name of the character to retrieve information about
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
