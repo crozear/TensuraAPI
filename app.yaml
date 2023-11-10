@@ -1,4 +1,6 @@
-steps:
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['app', 'deploy']
-timeout: '1600s'
+runtime: python
+env: flex
+entrypoint: gunicorn -b :$PORT main:app
+
+runtime_config:
+  python_version: 3
