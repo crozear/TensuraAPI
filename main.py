@@ -5,13 +5,17 @@ app = Flask(__name__)
 
 # Step 5: Load Your JSON Data
 try:
-    with open('slime.json', 'r') as file:
+    with open('Slime.json', 'r') as file:
         data = json.load(file)
 except FileNotFoundError:
     data = {}
     print("Data file not found.")
 
 # Step 6: Create API Endpoints
+@app.route('/')
+def home():
+    return 'Welcome to the Tensura API!'
+
 @app.route('/characters', methods=['GET'])
 def get_character_info():
     name = request.args.get('name')
