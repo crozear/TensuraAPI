@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import json
+from fuzzywuzzy import process
 
 app = Flask(__name__)
 
@@ -7,28 +8,30 @@ app = Flask(__name__)
 try:
     with open('Slime.json', 'r') as file:
         data = json.load(file)
+    # Create a list of character names for fuzzy matching
+    character_names = [character['name'] for character in data]
 except FileNotFoundError:
     data = {}
     print("Data file not found.")
 
 # Step 6: Create API Endpoints
-@app.route('/')
-def home():
-    return 'Welcome to the Tensura API!'
-
 @app.route('/characters', methods=['GET'])
 def get_character_info():
-    name = request.args.get('name')
-    if not name:
+    query_name = request.args.get('name')
+    if not query_name:
         return jsonify({"error": "No name provided"}), 400
 
-    # Search logic to find character information
-    character_info = [character for character in data if character.get('name') == name]
+    # Use fuzzy matching to find the best match for the query name
+    best_match, score = process.extractOne(query_name, character_names)
+    if score < 75:  # You can adjust the score threshold as needed
+        return jsonify({"error": "Character not found"}), 404
+    
+    # Find the full character info for the best match
+    character_info = next((char for char in data if char['name'] == best_match), None)
     if character_info:
         return jsonify(character_info)
     else:
         return jsonify({"error": "Character not found"}), 404
 
-# Step 8: Running the Application
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

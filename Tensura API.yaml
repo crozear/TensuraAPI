@@ -6,6 +6,7 @@ paths:
   /characters:
     get:
       summary: Retrieve character information
+      operationId: getCharacterInfo  # This is the operationId that was missing
       parameters:
         - in: query
           name: name
