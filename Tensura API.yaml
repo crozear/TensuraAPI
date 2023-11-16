@@ -22,4 +22,4 @@ paths:
                 type: object
                 properties:
                   data:
-                    type: string
+                    type: string 
